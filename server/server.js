@@ -7,15 +7,16 @@ app.use(express.static('server/public'));
 
 // Global variable that will contain all of the
 // calculation objects:
-let calculations = []
-
+let calculations = [{ num1: 1, num2: 2, operator: '+', result: 3 }];
 
 // Here's a wonderful place to make some routes:
 
 // GET /calculations
+app.get('/calculations', (req, res) => {
+  res.send(calculations);
+});
 
 // POST /calculations
-
 
 // PLEASE DO NOT MODIFY ANY CODE BELOW THESE BEARS:
 // 🐻  🐻‍❄️  🧸  🐻  🐻‍❄️  🧸  🐻  🐻‍❄️  🧸  🐻  🐻‍❄️  🧸
@@ -39,10 +40,10 @@ const server = app.listen(PORT, () => {
 // absolutely no need for you to reason about this.
 app.closeServer = () => {
   server.close();
-}
+};
 
 app.setCalculations = (calculationsToSet) => {
   calculations = calculationsToSet;
-}
+};
 
 module.exports = app;
