@@ -57,9 +57,9 @@ function submitCalculation(event) {
   let numOneInput = document.getElementById('numOne').value;
   let numTwoInput = document.getElementById('numTwo').value;
 
-  console.log('Number 1 value:', numOneInput);
-  console.log('Number 2 value', numTwoInput);
-  console.log('Operation', operator);
+  //   console.log('Number 1 value:', numOneInput);
+  //   console.log('Number 2 value', numTwoInput);
+  //   console.log('Operation', operator);
 
   //build calculation object and send to server: {num1, num2, operator}
   const calcObj = {
@@ -67,7 +67,7 @@ function submitCalculation(event) {
     numTwo: numTwoInput,
     operator,
   };
-  console.log('calc Object', calcObj);
+  //   console.log('calc Object', calcObj);
   //short hand axios POST
   axios
     .post('/calculations', calcObj)
@@ -82,6 +82,7 @@ function submitCalculation(event) {
     })
     .catch((error) => {
       console.error('Error POST calculation', error);
+      alert('Something went wrong Clearing');
     });
   //longhand axios POST
   //   axios({

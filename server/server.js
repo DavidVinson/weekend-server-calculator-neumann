@@ -10,6 +10,11 @@ app.use(express.static('server/public'));
 // let calculations = [{ numOne: 1, numTwo: 2, operator: '+', result: 3 }];
 let calculations = [];
 
+// we can also create functions to handle the calculations
+// function addNumbers(num1, num2) {
+//   return num1 + num2;
+// }
+
 // Here's a wonderful place to make some routes:
 
 // GET /calculations
@@ -25,53 +30,32 @@ app.post('/calculations', (req, res) => {
   const numTwo = Number(req.body.numTwo); //ex, 2 (number)
   const operator = req.body.operator; // ex, '+' (string)
 
+  //the calculation object without the result
+  const calcObj = {
+    numOne,
+    numTwo,
+    operator,
+  };
   //check the operation and calculate
   if (operator === '+') {
-    const result = numOne + numTwo;
     //make a calculation object
-    const calcObj = {
-      numOne,
-      numTwo,
-      operator,
-      result: result,
-    };
-    //add calc object to calculation history
-    calculations.push(calcObj);
+    // const result = addNumbers(numOne, numTwo);
+    const result = numOne + numTwo;
+    calcObj.result = result;
   } else if (operator === '-') {
     const result = numOne - numTwo;
-    //make a calculation object
-    const calcObj = {
-      numOne,
-      numTwo,
-      operator,
-      result: result,
-    };
-    //add calc object to calculation history
-    calculations.push(calcObj);
+    calcObj.result = result;
   } else if (operator === '*') {
     const result = numOne * numTwo;
-    //make a calculation object
-    const calcObj = {
-      numOne,
-      numTwo,
-      operator,
-      result: result,
-    };
-    //add calc object to calculation history
-    calculations.push(calcObj);
+    calcObj.result = result;
   } else if (operator === '/') {
     const result = numOne / numTwo;
-    //make a calculation object
-    const calcObj = {
-      numOne,
-      numTwo,
-      operator,
-      result: result,
-    };
-    //add calc object to calculation history
-    calculations.push(calcObj);
+    calcObj.result = result;
   }
+  //add calc object to calculation history
+  calculations.push(calcObj);
 
+  //server reponse
   res.sendStatus(201);
 });
 
