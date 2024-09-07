@@ -17,6 +17,62 @@ app.get('/calculations', (req, res) => {
 });
 
 // POST /calculations
+app.post('/calculations', (req, res) => {
+  //req.body {num1, num2, operator}
+  console.log('req.body', req.body);
+  const num1 = Number(req.body.num1); //ex, 1 (number)
+  const num2 = Number(req.body.num2); //ex, 2 (number)
+  const operator = req.body.operator; // ex, '+' (string)
+
+  //check the operation and calculate
+  if (operator === '+') {
+    const result = num1 + num2;
+    //make a calculation object
+    const calcObj = {
+      num1,
+      num2,
+      operator,
+      result: result,
+    };
+    //add calc object to calculation history
+    calculations.push(calcObj);
+  } else if (operator === '-') {
+    const result = num1 - num2;
+    //make a calculation object
+    const calcObj = {
+      num1,
+      num2,
+      operator,
+      result: result,
+    };
+    //add calc object to calculation history
+    calculations.push(calcObj);
+  } else if (operator === '*') {
+    const result = num1 * num2;
+    //make a calculation object
+    const calcObj = {
+      num1,
+      num2,
+      operator,
+      result: result,
+    };
+    //add calc object to calculation history
+    calculations.push(calcObj);
+  } else if (operator === '/') {
+    const result = num1 / num2;
+    //make a calculation object
+    const calcObj = {
+      num1,
+      num2,
+      operator,
+      result: result,
+    };
+    //add calc object to calculation history
+    calculations.push(calcObj);
+  }
+
+  res.sendStatus(201);
+});
 
 // PLEASE DO NOT MODIFY ANY CODE BELOW THESE BEARS:
 // 🐻  🐻‍❄️  🧸  🐻  🐻‍❄️  🧸  🐻  🐻‍❄️  🧸  🐻  🐻‍❄️  🧸
