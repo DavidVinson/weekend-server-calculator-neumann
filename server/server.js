@@ -6,8 +6,9 @@ app.use(express.json());
 app.use(express.static('server/public'));
 
 // Global variable that will contain all of the
-// calculation objects:
-let calculations = [{ num1: 1, num2: 2, operator: '+', result: 3 }];
+// calculation objects: set one object for testing
+// let calculations = [{ numOne: 1, numTwo: 2, operator: '+', result: 3 }];
+let calculations = [];
 
 // Here's a wonderful place to make some routes:
 
@@ -20,50 +21,50 @@ app.get('/calculations', (req, res) => {
 app.post('/calculations', (req, res) => {
   //req.body {num1, num2, operator}
   console.log('req.body', req.body);
-  const num1 = Number(req.body.num1); //ex, 1 (number)
-  const num2 = Number(req.body.num2); //ex, 2 (number)
+  const numOne = Number(req.body.numOne); //ex, 1 (number)
+  const numTwo = Number(req.body.numTwo); //ex, 2 (number)
   const operator = req.body.operator; // ex, '+' (string)
 
   //check the operation and calculate
   if (operator === '+') {
-    const result = num1 + num2;
+    const result = numOne + numTwo;
     //make a calculation object
     const calcObj = {
-      num1,
-      num2,
+      numOne,
+      numTwo,
       operator,
       result: result,
     };
     //add calc object to calculation history
     calculations.push(calcObj);
   } else if (operator === '-') {
-    const result = num1 - num2;
+    const result = numOne - numTwo;
     //make a calculation object
     const calcObj = {
-      num1,
-      num2,
+      numOne,
+      numTwo,
       operator,
       result: result,
     };
     //add calc object to calculation history
     calculations.push(calcObj);
   } else if (operator === '*') {
-    const result = num1 * num2;
+    const result = numOne * numTwo;
     //make a calculation object
     const calcObj = {
-      num1,
-      num2,
+      numOne,
+      numTwo,
       operator,
       result: result,
     };
     //add calc object to calculation history
     calculations.push(calcObj);
   } else if (operator === '/') {
-    const result = num1 / num2;
+    const result = numOne / numTwo;
     //make a calculation object
     const calcObj = {
-      num1,
-      num2,
+      numOne,
+      numTwo,
       operator,
       result: result,
     };
@@ -72,6 +73,14 @@ app.post('/calculations', (req, res) => {
   }
 
   res.sendStatus(201);
+});
+
+app.delete('/calculations', (req, res) => {
+  //clear history of calculations and send a response
+  console.log('clear server calculations');
+  calculations.length = 0;
+  console.log('cleared history on server', calculations.length);
+  res.sendStatus(204);
 });
 
 // PLEASE DO NOT MODIFY ANY CODE BELOW THESE BEARS:

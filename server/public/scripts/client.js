@@ -25,15 +25,27 @@ function fetchCalculation() {
 //Display on DOM
 function renderCalculationHistory(calculations) {
   const calcHistory = document.getElementById('resultHistory');
+  const calcRecent = document.getElementById('recentResult');
+
   //clear calcHistory
   calcHistory.innerHTML = ``;
-  //loop calcHistory
-  for (let calc of calculations) {
-    calcHistory.innerHTML += `
+  //clear calcRecent
+  calcRecent.innerHTML = ``;
+
+  if (calculations.length > 0) {
+    const recentResult = calculations[calculations.length - 1];
+    calcRecent.innerHTML = `<h2>${recentResult.result}</h2>`;
+    //loop calcHistory
+    for (let calc of calculations) {
+      calcHistory.innerHTML += `
       <ul>
-          <li>${calc.num1} ${calc.operator} ${calc.num2} = ${calc.result}</li>
+          <li>${calc.numOne} ${calc.operator} ${calc.numTwo} = ${calc.result}</li>
       </ul>
       `;
+    }
+  } else {
+    calcHistory.innerHTML = ``;
+    calcRecent.innerHTML = `<h2>0</h2>`;
   }
 }
 
@@ -51,19 +63,65 @@ function submitCalculation(event) {
 
   //build calculation object and send to server: {num1, num2, operator}
   const calcObj = {
-    num1: numOneInput,
-    num2: numTwoInput,
+    numOne: numOneInput,
+    numTwo: numTwoInput,
     operator,
   };
-  axios.post('/calculations', calcObj).then((response) => {
-    console.log('get updates from server...');
-    fetchCalculation();
-  });
+  console.log('calc Object', calcObj);
+  //short hand axios POST
+  axios
+    .post('/calculations', calcObj)
+    .then((response) => {
+      console.log('get updates from server...');
+      fetchCalculation();
+      //reset input fields and operator
+      //   document.getElementById('numOne').value = '';
+      //   document.getElementById('numTwo').value = '';
+      document.getElementById('calculator').reset();
+      operator = '+';
+    })
+    .catch((error) => {
+      console.error('Error POST calculation', error);
+    });
+  //longhand axios POST
+  //   axios({
+  //     method: 'POST',
+  //     url: '/calculations',
+  //     data: calcObj,
+  //   })
+  //     .then((response) => {
+  //       console.log('get updates from server...');
+  //       fetchCalculation();
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error POST calculation', error);
+  //     });
 }
 
 function setOperator(event) {
   console.log('add btn clicked!', event.target);
   operator = event.target.id;
+}
+
+function clearHistory(event) {
+  event.preventDefault();
+  //send a delete request to server
+  console.log('clear history');
+  axios
+    .delete('/calculations')
+    .then((response) => {
+      console.log('clear history');
+      //refresh page
+      fetchCalculation();
+      //clear inputs on form
+      //   document.getElementById('numOne').value = '';
+      //   document.getElementById('numTwo').value = '';
+      document.getElementById('calculator').reset();
+      operator = '+';
+    })
+    .catch((error) => {
+      console.error('Error Clearing History', error);
+    });
 }
 
 //call onReady
